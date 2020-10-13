@@ -8,15 +8,40 @@ public class Rocket : MonoBehaviour
     [SerializeField] float thrust = 5f;
     Rigidbody rigidBody;
     AudioSource audioSource;
+
+    enum State { Alive, Dying, Transcending }
+    State state = State.Alive;
+
     void Start(){
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
     }
 
     void Update(){
-        Thrust();
-        Rotate();
+        if (state == State.Alive){
+            Thrust();
+            Rotate();
+        }
     }
+
+     void OnCollisionEnter(Collision collision)
+    {
+        if (state != State.Alive) { return; } // ignore collisions when dead
+
+        switch (collision.gameObject.tag){
+            case "Friendly":
+                // do nothing
+                break;
+            case "Finish":
+                // StartSuccessSequence();
+                break;
+            default:
+                state = State.Dying;
+                // StartDeathSequence();
+                break;
+        }
+    }
+
     void Thrust(){
         if( Input.GetKey(KeyCode.Space)){
             var thrustSpeed = thrust * Time.deltaTime;
