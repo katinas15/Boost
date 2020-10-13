@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Rocket.cs" />
+     <Compile Include="Assets\Scripts\MovingPlatform.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>F:/Git/Boost/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

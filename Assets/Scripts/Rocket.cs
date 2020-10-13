@@ -6,8 +6,15 @@ public class Rocket : MonoBehaviour
 {
     [SerializeField] float rotation = 10f;
     [SerializeField] float thrust = 5f;
+
+    [SerializeField] ParticleSystem engine;
+    [SerializeField] ParticleSystem success;
+    [SerializeField] ParticleSystem death;
+
     Rigidbody rigidBody;
     AudioSource audioSource;
+
+
 
     enum State { Alive, Dying, Transcending }
     State state = State.Alive;
@@ -18,10 +25,10 @@ public class Rocket : MonoBehaviour
     }
 
     void Update(){
-        if (state == State.Alive){
+        // if (state == State.Alive){
             Thrust();
             Rotate();
-        }
+        // }
     }
 
      void OnCollisionEnter(Collision collision)
@@ -37,6 +44,7 @@ public class Rocket : MonoBehaviour
                 break;
             default:
                 state = State.Dying;
+                death.Play();
                 // StartDeathSequence();
                 break;
         }
@@ -50,8 +58,10 @@ public class Rocket : MonoBehaviour
             if(!audioSource.isPlaying){
                 audioSource.Play();
             }
+            engine.Play();
         } else {
             audioSource.Stop();
+            engine.Stop();
         }
     }
 
